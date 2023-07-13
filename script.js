@@ -80,13 +80,25 @@ let val1 = null;
 let val2 = null;
 let val3 = null;
 
+function clearVals() {
+    val1 = null;
+    val2 = null;
+    val3 = null;
+}
+
 //assign vals 
 function assignVals() {
-    if (val1 === null) {
-        val1 = document.querySelector('.display').innerHTML
-
-    } else if (val1 !== null){
-        val3 = document.querySelector('.display').innerHTML
+    let prev = document.querySelector('.previous').innerHTML
+    if (prev !== '') { //if there is already a current equation assign val1 to the current result and val3 to the new input
+        prevArr = prev.split(" ");
+        val1 = checkResult(prevArr);
+        val3 = document.querySelector('.display').innerHTML;
+    } else { //if there is no current equation then assign val1 with the first number and val3 with the second
+        if (val1 === null) {
+            val1 = document.querySelector('.display').innerHTML;
+        } else if (val1 !== null){
+            val3 = document.querySelector('.display').innerHTML;
+        }
     }
 }
 
@@ -101,25 +113,21 @@ buttons.forEach((button) => {
             case 'add':
                 button.classList.add('active') //highlight button
                 assignVals()
-                clearDisplay()
                 val2 = curr;
                 break;
             case 'subtract':
                 button.classList.add('active') //highlight button
                 assignVals()
-                clearDisplay()
                 val2 = curr;
                 break;
             case 'multiply':
                 button.classList.add('active') //highlight button
                 assignVals()
-                clearDisplay()
                 val2 = curr;
                 break;
             case 'divide':
                 button.classList.add('active') //highlight button
                 assignVals()
-                clearDisplay()
                 val2 = curr;
                 break;  
             case 'equals':
@@ -127,8 +135,19 @@ buttons.forEach((button) => {
                 clearDisplay()
                 equal(val1, val2, val3);
                 break;
+            case 'clear':
+                clearDisplay();
+                break;
+            case 'clear-entry':
+                clearEntry();
+                break;
             default:
-                display(curr);
+                if (val2 !== null) {
+                    clearDisplay()
+                    display(curr);
+                } else {
+                    display(curr);   
+                }
         }
     });
 });
@@ -139,6 +158,38 @@ function removeActive() {
         button.classList.remove('active')
     });
 };
+
+//clear Entry
+function clearEntry() {
+    clearVals()
+    clearDisplay();
+    clearPrevious();
+}
+
+//Clear Previous
+function clearPrevious() {
+    let toClear = document.querySelector('.previous')
+    toClear.innerHTML = "";
+}
+
+function checkResult(arr) {
+    let num1 = parseInt(arr[0]);
+    let operand = arr[1];
+    let num2 = parseInt(arr[2]);
+    let result;
+
+    if (operand === '+') {
+        result = add(num1, num2)
+    } else if (operand === '-') {
+        result = subtract(num1, num2)
+    } else if (operand === 'x') {
+        result = multiply(num1, num2)
+    } else if (operand === '/') {
+        result = divide(num1, num2)
+    }
+    return result;
+}
+
 
 
 
