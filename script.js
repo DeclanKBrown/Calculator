@@ -15,6 +15,8 @@ function equal(num1, operand, num2) {
         result = multiply(num1, num2)
     } else if (operand === 'divide') {
         result = divide(num1, num2)
+    } else if (operand === 'percentage') {
+        result = percentage(num1, num2)
     }
     display(result)
     displayEquation(num1, num2, operand);
@@ -37,7 +39,12 @@ function multiply(a, b) {
 
 //divide function 
 function divide(a, b) {
-    a / b
+   return a / b
+}
+
+//Percentage function
+function percentage(a, b) {
+    return Math.round(((a / 100) * b) * 100) / 100;
 }
 
 //display result on screen
@@ -62,6 +69,9 @@ function displayEquation(a, b, symbol) {
         case 'divide':
             symbol = '/';
             break;  
+        case 'percentage':
+            symbol = 'percentage of';
+            break;
     }
     //display on previous
     const previous = document.querySelector('.previous');
@@ -87,7 +97,7 @@ function clearVals() {
 }
 
 //assign vals 
-function assignVals() {
+function assignVals(btn) {
     let prev = document.querySelector('.previous').innerHTML
     if (prev !== '') { //if there is already a current equation assign val1 to the current result and val3 to the new input
         prevArr = prev.split(" ");
@@ -99,6 +109,16 @@ function assignVals() {
         } else if (val1 !== null){
             val3 = document.querySelector('.display').innerHTML;
         }
+    }
+    if (btn === 'add' || btn === 'subtract' || btn === 'multiply' || btn === 'divide') { //if the operand is called after two number already input call equals
+        if (val1 !== null && val3 !== null) {
+            val1 = parseInt(val1);
+            // val3 = document.querySelector('.display').innerHTML;
+            val3 = parseInt(val3);
+            clearDisplay()
+            equal(val1, val2, val3);
+        }
+
     }
 }
 
@@ -112,26 +132,26 @@ buttons.forEach((button) => {
         switch (curr) {
             case 'add':
                 button.classList.add('active') //highlight button
-                assignVals()
+                assignVals(curr)
                 val2 = curr;
                 break;
             case 'subtract':
                 button.classList.add('active') //highlight button
-                assignVals()
+                assignVals(curr)
                 val2 = curr;
                 break;
             case 'multiply':
                 button.classList.add('active') //highlight button
-                assignVals()
+                assignVals(curr)
                 val2 = curr;
                 break;
             case 'divide':
                 button.classList.add('active') //highlight button
-                assignVals()
+                assignVals(curr)
                 val2 = curr;
                 break;  
             case 'equals':
-                assignVals()
+                assignVals(curr)
                 clearDisplay()
                 equal(val1, val2, val3);
                 break;
@@ -140,6 +160,14 @@ buttons.forEach((button) => {
                 break;
             case 'clear-entry':
                 clearEntry();
+                break;
+            case 'percentage':
+                button.classList.add('active') //highlight button
+                assignVals(curr)
+                val2 = curr;
+                break;  
+            case 'back-space':
+                backSpace();
                 break;
             default:
                 if (val2 !== null) {
@@ -189,6 +217,15 @@ function checkResult(arr) {
     }
     return result;
 }
+
+//backspace
+function backSpace(){
+    let curr = document.querySelector('.display').innerHTML
+    let currArr = curr.split('');
+    currArr.pop();
+    document.querySelector('.display').innerHTML = currArr.join('')
+}
+
 
 
 
