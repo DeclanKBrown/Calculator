@@ -110,3 +110,22 @@ button:active {
 .btn-right {
     background-color: rgb(18, 77, 130);
 }
+
+.BS {
+    filter: invert(100%);
+    width: 50px;
+}
+
+#back-space {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.active {
+    background-color: rgb(29, 121, 202);
+}
+
+#equals:hover {
+    background-color: rgb(29, 121, 202);
+}
