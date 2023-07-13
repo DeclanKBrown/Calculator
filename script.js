@@ -1,12 +1,21 @@
-
-// #When a sign is entered it is highlighted --> then the display is cleared on the newnumber entered
-// #Methods for each sign and top row
-
 //equals function 
 function equal(num1, operand, num2) {
     let result;
-    num1 = parseInt(num1)
-    num2 = parseInt(num2);
+
+    //parse to correct type
+    num1 = String(num1)
+    num2 = String(num2)
+    if (num1.includes('.')) {
+        num1 = parseFloat(num1);
+    } else {
+        num1 = parseInt(num1)
+    }
+    if (num2.includes('.')) {
+        num2 = parseFloat(num2);
+    } else {
+        num2 = parseInt(num2);
+    }
+
     if (operand === 'add') {
         result = add(num1, num2)
     } else if (operand === 'subtract') {
@@ -80,6 +89,7 @@ function displayEquation(a, b, symbol) {
 
 //clear Display
 function clearDisplay() {
+    console.log('yea')
     let display = document.querySelector('.display');
     display.innerHTML = "";
 }
@@ -112,13 +122,9 @@ function assignVals(btn) {
     }
     if (btn === 'add' || btn === 'subtract' || btn === 'multiply' || btn === 'divide') { //if the operand is called after two number already input call equals
         if (val1 !== null && val3 !== null) {
-            val1 = parseInt(val1);
-            // val3 = document.querySelector('.display').innerHTML;
-            val3 = parseInt(val3);
             clearDisplay()
-            equal(val1, val2, val3);
+            equal(val1, val2, val3); //FIXME if user input 1 + 5 = then + 5 it makes val1 = to the resul and val3 equal to inner html then calls this 
         }
-
     }
 }
 
@@ -169,6 +175,9 @@ buttons.forEach((button) => {
             case 'back-space':
                 backSpace();
                 break;
+            case 'decimal':
+                document.querySelector('.display').innerHTML += '.';
+                break;
             default:
                 if (val2 !== null) {
                     clearDisplay()
@@ -201,10 +210,21 @@ function clearPrevious() {
 }
 
 function checkResult(arr) {
-    let num1 = parseInt(arr[0]);
+    let num1 = arr[0];
     let operand = arr[1];
-    let num2 = parseInt(arr[2]);
+    let num2 = arr[2];
     let result;
+    //parse to correct type
+    if (num1.includes('.')) {
+        num1 = parseFloat(num1);
+    } else {
+        num1 = parseInt(num1)
+    }
+    if (num2.includes('.')) {
+        num2 = parseFloat(num2);
+    } else {
+        num2 = parseInt(num2);
+    }
 
     if (operand === '+') {
         result = add(num1, num2)
@@ -225,6 +245,7 @@ function backSpace(){
     currArr.pop();
     document.querySelector('.display').innerHTML = currArr.join('')
 }
+
 
 
 
