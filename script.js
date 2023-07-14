@@ -15,7 +15,7 @@ function equal(num1, operand, num2) {
     } else {
         num2 = parseInt(num2);
     }
-
+    //call correct function
     if (operand === 'add') {
         result = add(num1, num2)
     } else if (operand === 'subtract') {
@@ -26,29 +26,37 @@ function equal(num1, operand, num2) {
         result = divide(num1, num2)
     } else if (operand === 'percentage') {
         result = percentage(num1, num2)
+    } else if (operand === 'equals') {
+        result = num1;
+        num2 = ''
     }
+    //display result and equation
     display(result)
     displayEquation(num1, num2, operand);
 } 
 
 //add function
 function add(a, b) {
-   return a + b;
+   return Math.round((a + b) * 100) / 100;
 }
 
 //subtract fucntion
 function subtract(a, b) {
-    return a - b;
+    return Math.round((a - b) * 100) / 100;
 }
 
 //multiply function
 function multiply(a, b) {
-    return a * b;
+    return Math.round((a * b) * 100) / 100;
 }
 
 //divide function 
 function divide(a, b) {
-   return a / b
+    if (b === 0) {
+        return 'undefined'
+    } else {
+        return Math.round((a / b) * 100) / 100;
+    }
 }
 
 //Percentage function
@@ -82,7 +90,7 @@ function displayEquation(a, b, symbol) {
             symbol = 'percentage of';
             break;
     }
-    //display on previous
+    //display the equation
     const previous = document.querySelector('.previous');
     previous.innerHTML = `${a} ${symbol} ${b}`
 }
@@ -99,6 +107,7 @@ let val1 = null;
 let val2 = null;
 let val3 = null;
 let canBS = true;
+let clear = false;
 
 function clearVals() {
     val1 = null;
@@ -124,6 +133,7 @@ function assignVals(btn) {
         }
     }
     if (btn === 'add' || btn === 'subtract' || btn === 'multiply' || btn === 'divide') { //if the operand is called after two number already input call equals
+        clear = true;
         if (val1 !== null && val3 !== null) {
             clearDisplay()
             equal(val1, val2, val3);
@@ -131,11 +141,16 @@ function assignVals(btn) {
             val3 = document.querySelector('.display').innerHTML; //if val3 is null is will assign it to the current -- means equals was called before
         }
     } else if (btn === 'equals'){ //equal the vals, make val1 equal the result and sets val3 to null
+        if (val3 === null) {
+            val2 = 'equals'
+        } 
         clearDisplay()
         equal(val1, val2, val3);
         val1 = document.querySelector('.display').innerHTML;
         val3 = null;
+        clear = true;
     }
+    console.log(clear)
 
 }
 
@@ -145,7 +160,6 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
         removeActive(); //remove active class from all buttons
-
         let curr = button.id;
         switch (curr) {
             case 'add':
@@ -171,9 +185,6 @@ buttons.forEach((button) => {
             case 'equals':
                 assignVals(curr)
                 break;
-            case 'clear':
-                clearDisplay();
-                break;
             case 'clear-entry':
                 clearEntry();
                 break;
@@ -190,7 +201,10 @@ buttons.forEach((button) => {
                 break;
             default:
                 if (val2 !== null) {
-                    clearDisplay()
+                    if (clear === true) {
+                        clearDisplay()
+                    }
+                    checkClear()
                     display(curr);
                     canBS = true;
                 } else {
@@ -251,12 +265,19 @@ function checkResult(arr) {
 }
 
 //backspace
-function backSpace(btn){
+function backSpace(){
     if (canBS === true) {
         let curr = document.querySelector('.display').innerHTML
         let currArr = curr.split('');
         currArr.pop();
         document.querySelector('.display').innerHTML = currArr.join('')
+    }
+}
+
+//check if input can be cleared
+function checkClear() {
+    if (clear === true) {
+        clear = false;
     }
 }
 

@@ -10,6 +10,7 @@ body {
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: rgb(20, 20, 20);
@@ -23,6 +24,7 @@ body {
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
+    margin-bottom: 50px;
 }
 
 .display-conatiner {
@@ -53,9 +55,10 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    font-size: 7em;
+    font-size: 6em;
     padding-bottom: 20px;
-    overflow-x: scroll;
+    margin: 0 auto;
+    overflow-x: auto;
 }
 
 .display::selection {
@@ -129,4 +132,12 @@ button:active {
 
 #equals:hover {
     background-color: rgb(29, 121, 202);
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    justify-self: flex-end;
+    color: rgb(225, 225, 225);
+    /* margin-top: 50px; */
 }
