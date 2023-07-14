@@ -87,7 +87,7 @@ function displayEquation(a, b, symbol) {
             symbol = '/';
             break;  
         case 'percentage':
-            symbol = 'percentage of';
+            symbol = 'percent of';
             break;
         case 'equals':
             symbol = '='
@@ -152,8 +152,16 @@ function assignVals(btn) {
         val1 = document.querySelector('.display').innerHTML;
         val3 = null;
         clear = true;
+    } else if (btn === 'percentage') {
+        clear = true;
+        if (val1 !== null && val3 !== null) {
+            clearDisplay()
+            equal(val1, val2, val3);
+        } else {
+            val3 = document.querySelector('.display').innerHTML; //if val3 is null is will assign it to the current -- means equals was called before
+        }
     }
-    console.log(clear)
+    
 
 }
 
@@ -267,6 +275,10 @@ function checkResult(arr) {
         result = divide(num1, num2)
     } else if (operand === '=') {
         result = num1;
+    } else if (operand === 'percent') {
+        num2 = arr[3];
+        result = percentage(num1, num2)
+        console.log(result)
     }
     return result;
 }
