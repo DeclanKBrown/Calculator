@@ -89,7 +89,6 @@ function displayEquation(a, b, symbol) {
 
 //clear Display
 function clearDisplay() {
-    console.log('yea')
     let display = document.querySelector('.display');
     display.innerHTML = "";
 }
@@ -99,6 +98,7 @@ function clearDisplay() {
 let val1 = null;
 let val2 = null;
 let val3 = null;
+let canBS = true;
 
 function clearVals() {
     val1 = null;
@@ -108,11 +108,14 @@ function clearVals() {
 
 //assign vals 
 function assignVals(btn) {
+    canBS = false;
     let prev = document.querySelector('.previous').innerHTML
     if (prev !== '') { //if there is already a current equation assign val1 to the current result and val3 to the new input
         prevArr = prev.split(" ");
         val1 = checkResult(prevArr);
-        val3 = document.querySelector('.display').innerHTML;
+        if (val3 !==null) {
+            val3 = document.querySelector('.display').innerHTML;
+        }
     } else { //if there is no current equation then assign val1 with the first number and val3 with the second
         if (val1 === null) {
             val1 = document.querySelector('.display').innerHTML;
@@ -123,10 +126,19 @@ function assignVals(btn) {
     if (btn === 'add' || btn === 'subtract' || btn === 'multiply' || btn === 'divide') { //if the operand is called after two number already input call equals
         if (val1 !== null && val3 !== null) {
             clearDisplay()
-            equal(val1, val2, val3); //FIXME if user input 1 + 5 = then + 5 it makes val1 = to the resul and val3 equal to inner html then calls this 
+            equal(val1, val2, val3);
+        } else {
+            val3 = document.querySelector('.display').innerHTML; //if val3 is null is will assign it to the current -- means equals was called before
         }
+    } else if (btn === 'equals'){ //equal the vals, make val1 equal the result and sets val3 to null
+        clearDisplay()
+        equal(val1, val2, val3);
+        val1 = document.querySelector('.display').innerHTML;
+        val3 = null;
     }
+
 }
+
 
 //Listen for click
 const buttons = document.querySelectorAll('button');
@@ -158,8 +170,6 @@ buttons.forEach((button) => {
                 break;  
             case 'equals':
                 assignVals(curr)
-                clearDisplay()
-                equal(val1, val2, val3);
                 break;
             case 'clear':
                 clearDisplay();
@@ -182,8 +192,10 @@ buttons.forEach((button) => {
                 if (val2 !== null) {
                     clearDisplay()
                     display(curr);
+                    canBS = true;
                 } else {
                     display(curr);   
+                    canBS = true;
                 }
         }
     });
@@ -239,11 +251,13 @@ function checkResult(arr) {
 }
 
 //backspace
-function backSpace(){
-    let curr = document.querySelector('.display').innerHTML
-    let currArr = curr.split('');
-    currArr.pop();
-    document.querySelector('.display').innerHTML = currArr.join('')
+function backSpace(btn){
+    if (canBS === true) {
+        let curr = document.querySelector('.display').innerHTML
+        let currArr = curr.split('');
+        currArr.pop();
+        document.querySelector('.display').innerHTML = currArr.join('')
+    }
 }
 
 
