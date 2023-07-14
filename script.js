@@ -3,32 +3,44 @@ function equal(num1, operand, num2) {
     let result;
 
     //parse to correct type
-    num1 = String(num1)
-    num2 = String(num2)
+    num1 = String(num1);
+    num2 = String(num2);
     if (num1.includes('.')) {
+        let temp = num1.replace('.', '');
+        if (temp.includes('.')) {
+            operand = 'Err';
+        }
         num1 = parseFloat(num1);
     } else {
-        num1 = parseInt(num1)
+        num1 = parseInt(num1);
     }
     if (num2.includes('.')) {
+        let temp = num2.replace('.', '');
+        if (temp.includes('.')) {
+            operand = 'Err';
+        }
         num2 = parseFloat(num2);
     } else {
         num2 = parseInt(num2);
     }
     //call correct function
     if (operand === 'add') {
-        result = add(num1, num2)
+        result = add(num1, num2);
     } else if (operand === 'subtract') {
-        result = subtract(num1, num2)
+        result = subtract(num1, num2);
     } else if (operand === 'multiply') {
-        result = multiply(num1, num2)
+        result = multiply(num1, num2);
     } else if (operand === 'divide') {
-        result = divide(num1, num2)
+        result = divide(num1, num2);
     } else if (operand === 'percentage') {
-        result = percentage(num1, num2)
+        result = percentage(num1, num2);
     } else if (operand === 'equals') {
         result = num1;
-        num2 = ''
+        num2 = '';
+    } else if (operand === 'Err') {
+        num1 = '';
+        num2 = '';
+        result = 'Err';
     }
     //display result and equation
     display(result)
