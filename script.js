@@ -1,6 +1,9 @@
 //equals function 
 function equal(num1, operand, num2) {
     let result;
+    console.log(val1)
+    console.log(operand)
+    console.log(val3)
 
     //parse to correct type
     num1 = String(num1);
@@ -177,7 +180,6 @@ function assignVals(btn) {
 
 }
 
-
 //Listen for click
 const buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {
@@ -239,6 +241,71 @@ buttons.forEach((button) => {
         }
     });
 });
+
+//Keybosard support 
+document.addEventListener('keyup', (e) => {
+    let key = e.key;
+    console.log(key)
+    if (key !== 'Shift') {
+        removeActive();
+    }
+    switch (key) {
+        case '+':
+            document.getElementById('add').classList.add('active') //highlight button
+            assignVals('add')
+            val2 = 'add';
+            break;
+        case '-':
+            document.getElementById('subtract').classList.add('active') //highlight button
+            assignVals('subtract')
+            val2 = 'subtract';
+            break;
+        case '*':
+            document.getElementById('multiply').classList.add('active') //highlight button
+            assignVals('multiply')
+            val2 = 'multiply';
+            break;
+        case '/':
+            document.getElementById('divide').classList.add('active') //highlight button
+            assignVals('divide')
+            val2 = 'divide';
+            break;  
+        case 'Enter':
+            assignVals('equals')
+            break;
+        case '%':
+            document.getElementById('percentage').classList.add('active') //highlight button
+            assignVals('percentage')
+            val2 = 'percentage';
+            break;  
+        case 'c':
+            document.getElementById('clear-entry').classList.add('active')
+            clearEntry();
+            break;
+        case 'Backspace':
+            backSpace();
+            break;
+        case '.':
+            if (canBS === true) {
+                document.querySelector('.display').innerHTML += '.';
+            }
+            break;
+        default:
+            if (/[0-9]/.test(key)) {
+                if (val2 !== null) {
+                    if (clear === true) {
+                        clearDisplay()
+                    }
+                    checkClear()
+                    display(key);
+                    canBS = true;
+                } else {
+                    display(key);   
+                    canBS = true;
+                }
+            }
+    }
+})
 
 //remove active
 function removeActive() {
