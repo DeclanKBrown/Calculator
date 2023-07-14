@@ -89,6 +89,9 @@ function displayEquation(a, b, symbol) {
         case 'percentage':
             symbol = 'percentage of';
             break;
+        case 'equals':
+            symbol = '='
+            break;
     }
     //display the equation
     const previous = document.querySelector('.previous');
@@ -197,7 +200,9 @@ buttons.forEach((button) => {
                 backSpace();
                 break;
             case 'decimal':
-                document.querySelector('.display').innerHTML += '.';
+                if (canBS === true) {
+                    document.querySelector('.display').innerHTML += '.';
+                }
                 break;
             default:
                 if (val2 !== null) {
@@ -260,6 +265,8 @@ function checkResult(arr) {
         result = multiply(num1, num2)
     } else if (operand === '/') {
         result = divide(num1, num2)
+    } else if (operand === '=') {
+        result = num1;
     }
     return result;
 }
